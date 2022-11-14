@@ -18,6 +18,18 @@
         font-size: 40px;
         font-weight: 800;
       }
+
+      #calc {
+        display: grid;
+        grid-template-columns: auto auto;
+        width: 450px;
+        gap: 10px;
+        text-align: right;
+      }
+
+      .result {
+        font-weight: bold;
+      }
     </style>
   </head>
   <body>
@@ -27,6 +39,27 @@
     <div id="content"></div>
     <button id="button1">kliknij mnie</button>
     <button id="button2">DOUBLE CLICK</button>
+
+    <div id="calc">
+      <label for="">Kapitał</label>
+      <input type="number" id="capital" value="1000" />
+      <label for="">Oprocentowanie</label>
+      <input type="number" id="rate" value="0.04" />
+      <label for="">Kapitalzacja co ile miesięcy</label>
+      <input type="number" id="n" value="12" />
+      <label for="">Na ile lat</label>
+      <input type="number" id="t" value="5" />
+
+      <span></span><button id="calc-button">Oblicz</button>
+      <label for="" class="result">Wartość końcowa:</label>
+      <input type="number" id="result-value" />
+    </div>
+    <br />
+    <div id="watch">
+      <span id="time"></span>
+    </div>
+
+    <!--SCRIPT-->
     <script>
       console.log("Hello World!");
       let text1 = "siemson";
@@ -48,6 +81,46 @@
 
       let div = document.getElementById("content");
       div.innerHTML = "hello world";
+
+      const inputCapital = document.getElementById("capital");
+      const inputRate = document.getElementById("rate");
+      const inputN = document.getElementById("n");
+      const inputT = document.getElementById("t");
+      const inputResultValue = document.getElementById("result-value");
+
+      let capital = inputCapital.value;
+      let rate = inputRate.value; //oprocentowanie
+      let n = inputN.value; //co ile kapitalicazja
+      let t = inputT.value; //na ile lat lokata
+
+      let finalMoney = capital * Math.pow(1 + rate / n, n * t);
+      console.log("pieniadze: ", Math.floor(finalMoney));
+
+      function calculate(capital, rate, n, t) {
+        return capital * Math.pow(1 + rate / n, n * t);
+      }
+
+      document
+        .getElementById("calc-button")
+        .addEventListener("click", function () {
+          let capital = inputCapital.value;
+          let rate = inputRate.value; //oprocentowanie
+          let n = inputN.value; //co ile kapitalicazja
+          let t = inputT.value; //na ile lat lokata
+
+          let result = calculate(capital, rate, n, t);
+          inputResultValue.value = result.toFixed(2);
+        });
+
+      //---------------
+
+      function currentTime() {
+        let date = new Date();
+        //console.log(date);
+        document.getElementById("time").innerHTML = date.toLocaleTimeString();
+      }
+
+      setInterval(currentTime, 1000);
     </script>
   </body>
 </html>
